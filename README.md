@@ -1,25 +1,31 @@
-# scTCRseq Downstream Workflow
+# scTCR-seq Downstream Workflow
 
-This repository contains a downstream single-cell `scRNA-seq + scTCR-seq` workflow for PBMC 10k style 10x multi-omic inputs.
+Code-only downstream workflow for PBMC-style single-cell `scRNA-seq + scTCR-seq` analysis on 10x multi-omic inputs.
 
-It intentionally excludes:
-- raw sequencing data
-- public test matrices and contig tables
-- generated logs
-- generated results objects
+This repository is structured for public sharing of pipeline logic, configuration, and expected results layout without bundling source data, large intermediate objects, or generated outputs.
 
-It includes only:
-- code
-- workflow entry points
-- configuration
-- dataset guidance
-- expected result structure
+## Overview
+
+Current included workflow:
+
+- `pbmc_10k_multi`
+
+Main analysis stages:
+
+- gene expression object preparation
+- scRNA-seq clustering
+- cell-type annotation
+- TCR metadata integration
+- T-cell clonotype analysis
+- report assembly
 
 ## Repository Layout
 
 ```text
 .
 ├── README.md
+├── LICENSE
+├── .gitignore
 ├── TEST_DATASETS.md
 ├── config/
 ├── src/
@@ -27,15 +33,16 @@ It includes only:
 └── expected_results/
 ```
 
-## Included Workflow
+## Workflow Entry Point
 
-Current workflow:
-- `pbmc_10k_multi`
+Run from the repository root:
 
-Main runnable entry point:
-- `workflows/run_pbmc_10k_pipeline.sh`
+```bash
+./workflows/run_pbmc_10k_pipeline.sh config/pbmc_10k_multi.yaml
+```
 
 Main code modules:
+
 - `src/pbmc_10k/00_utils.R`
 - `src/pbmc_10k/01_prepare_object.R`
 - `src/pbmc_10k/02_cluster_scrna.R`
@@ -46,43 +53,38 @@ Main code modules:
 
 ## Expected Input
 
-The workflow expects upstream-prepared 10x-style downstream inputs rather than FASTQ:
+The workflow expects upstream-prepared downstream inputs rather than FASTQ files:
 
 - a gene expression H5 matrix
 - filtered TCR contig annotations
 - clonotype annotations
 
-The exact paths and parameters are configured in:
-- `config/pbmc_10k_multi.yaml`
+Paths and parameters are configured in `config/pbmc_10k_multi.yaml`.
 
-More dataset guidance is in:
-- `TEST_DATASETS.md`
+Additional dataset guidance is documented in `TEST_DATASETS.md`.
 
-## How To Run
+## Repository Policy
 
-From repository root:
+Included:
 
-```bash
-./workflows/run_pbmc_10k_pipeline.sh config/pbmc_10k_multi.yaml
-```
+- code
+- workflow entry points
+- configuration
+- dataset guidance
+- expected result structure
 
-Each step writes one log file and produces staged outputs under the configured results directory.
+Excluded:
+
+- raw sequencing data
+- public test matrices and contig tables
+- generated logs
+- generated results objects
+- local package environments
 
 ## Expected Results
 
-This repository does not include real outputs. Instead it includes the expected output skeleton in:
+This repository ships only the expected output skeleton:
 
 - `expected_results/pbmc_10k_multi/`
 
-That structure mirrors the staged downstream deliverables:
-- QC
-- clustering
-- annotation
-- TCR integration
-- T-cell clonotype analysis
-- report tables
-- checkpoint objects
-- per-step logs
-
-See:
-- `expected_results/pbmc_10k_multi/README.md`
+That structure mirrors the staged downstream deliverables for QC, clustering, annotation, TCR integration, clonotype analysis, reports, checkpoint objects, and per-step logs.
