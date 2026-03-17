@@ -1,0 +1,20 @@
+sample_name: pbmc_10k_multi
+input:
+  gex_h5: data/test_scTCR/pbmc_10k_multi/sc5p_v2_hs_PBMC_10k_multi_5gex_5fb_b_t_count_filtered_feature_bc_matrix.h5
+  tcr_contigs: data/test_scTCR/pbmc_10k_multi/sc5p_v2_hs_PBMC_10k_multi_5gex_5fb_b_t_vdj_t_filtered_contig_annotations.csv
+  tcr_clonotypes: data/test_scTCR/pbmc_10k_multi/sc5p_v2_hs_PBMC_10k_multi_5gex_5fb_b_t_vdj_t_clonotypes.csv
+output_dir: results/pbmc_10k_multi
+log_dir: logs/pbmc_10k_multi
+qc:
+  min_features: 200
+  max_features: 6000
+  max_counts: 25000
+  max_percent_mt: 15
+clustering:
+  nfeatures: 3000
+  npcs: 30
+  resolution: 0.3
+  regress_percent_mt: true
+  marker_max_cells_per_cluster: 300
+clonotype:
+  top_n: 10
